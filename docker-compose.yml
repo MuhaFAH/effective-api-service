@@ -1,5 +1,5 @@
 services:
-  pulsar:
+  effective_mobile:
     build:
       context: .
       dockerfile: Dockerfile
