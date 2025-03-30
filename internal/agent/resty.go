@@ -93,7 +93,7 @@ func selectCountry(countries []country) string {
 }
 
 func (r *RestyAgent) EnrichInformation(ctx context.Context, user e.User) (*e.User, error) {
-	if user.Name == nil || *user.Name == "" {
+	if user.Name == nil {
 		return nil, errors.New("name is required to enrich")
 	}
 

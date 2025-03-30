@@ -19,10 +19,10 @@ func NewService(agent agent.Agent, storage repository.Repository) *Service {
 }
 
 func (s *Service) CreateUser(ctx context.Context, user e.User) (*e.User, error) {
-	if user.Name == nil || *user.Name == "" {
+	if user.Name == nil {
 		return nil, errors.New("user name is required parameter")
 	}
-	if user.Surname == nil || *user.Surname == "" {
+	if user.Surname == nil {
 		return nil, errors.New("user surname is required parameter")
 	}
 	enrichedUser, err := s.agent.EnrichInformation(ctx, user)

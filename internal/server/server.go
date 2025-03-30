@@ -27,6 +27,7 @@ func (s *Server) InitHandlers() {
 	s.engine.GET("/user/get/:id", s.getUserHandler)
 	s.engine.GET("/user/delete/:id", s.deleteUserHandler)
 
+	s.engine.POST("/users/get", s.getUsersHandler)
 	s.engine.POST("/user/create", s.createUserHandler)
 	s.engine.PATCH("/user/update/:id", s.updateUserHandler)
 }

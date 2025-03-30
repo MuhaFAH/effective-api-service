@@ -49,14 +49,13 @@ func (s *Server) getUsersHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-
 	users, err := s.service.ReadUsersByFilter(s.context, convertIntoFilter(usersData))
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return
 	}
 
-	c.JSON(200, gin.H{"user": users})
+	c.JSON(200, gin.H{"users": users})
 }
 
 func (s *Server) updateUserHandler(c *gin.Context) {

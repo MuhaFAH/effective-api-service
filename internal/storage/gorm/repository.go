@@ -41,9 +41,55 @@ func (r *Repository) ReadUser(ctx context.Context, id uint) (e.User, error) {
 }
 
 func (r *Repository) ReadUsersByFilter(ctx context.Context, filter storage.Filter) ([]e.User, error) {
-	//TODO сделать логику выборки с фильтром для репозитория горма
+	var users []e.User
 
-	return []e.User{}, nil
+	filters := map[string]interface{}{}
+	if filter.Name != nil {
+		filters["name"] = *filter.Name
+	}
+	if filter.Surname != nil {
+		filters["surname"] = *filter.Surname
+	}
+	if filter.Patronymic != nil {
+		filters["patronymic"] = *filter.Patronymic
+	}
+	if filter.Age != nil {
+		filters["age"] = *filter.Age
+	}
+	if filter.Gender != nil {
+		filters["gender"] = *filter.Gender
+	}
+	if filter.Nationality != nil {
+		filters["nationality"] = *filter.Nationality
+	}
+
+	err := r.db.Scopes(paginate(filter)).Where(filters).Find(&users).Error
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
+}
+
+func paginate(filter storage.Filter) func(db *gorm.DB) *gorm.DB {
+	return func(db *gorm.DB) *gorm.DB {
+		page := *filter.Page
+		if page <= 0 {
+			page = 1
+		}
+
+		pageSize := *filter.Count
+		switch {
+		case pageSize > 100:
+			pageSize = 100
+		case pageSize <= 0:
+			pageSize = 10
+		}
+
+		offset := (page - 1) * pageSize
+
+		return db.Offset(offset).Limit(pageSize)
+	}
 }
 
 func (r *Repository) UpdateUser(ctx context.Context, id uint, user e.User) (e.User, error) {

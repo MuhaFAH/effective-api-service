@@ -16,11 +16,11 @@ type UsersRequest struct {
 }
 
 func convertIntoFilter(req UsersRequest) storage.Filter {
-	if req.Page == nil || *req.Page == 0 {
+	if req.Page == nil {
 		page := 1
 		req.Page = &page
 	}
-	if req.Count == nil || *req.Count == 0 {
+	if req.Count == nil {
 		count := 10
 		req.Count = &count
 	}
