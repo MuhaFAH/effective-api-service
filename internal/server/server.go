@@ -16,6 +16,9 @@ type Server struct {
 	context context.Context
 }
 
+// @contact.name   Effective Mobile Task
+// @contact.email  muhabusiness@ya.ru
+
 func NewServer(ctx context.Context, srv *service.Service, lggr logger.MinimalisticLogger) *Server {
 	gin.SetMode(gin.ReleaseMode)
 

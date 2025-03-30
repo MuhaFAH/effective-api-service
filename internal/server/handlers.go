@@ -8,6 +8,12 @@ import (
 	"time"
 )
 
+// @Summary Получить приветствие от сервера
+// @Description Базовая и удобная проверка работоспособности ответа от сервера
+// @Tags main
+// @Produce json
+// @Success 200 {object} map[string]string
+// @Router /hello [get]
 func (s *Server) helloHandler(c *gin.Context) {
 	c.JSON(200, gin.H{"message": "Hello!"})
 }
