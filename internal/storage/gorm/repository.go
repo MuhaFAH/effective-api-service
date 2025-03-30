@@ -4,6 +4,7 @@ import (
 	"context"
 	e "github.com/MuhaFAH/effective-api-service/internal/storage/entities"
 	"gorm.io/gorm"
+	"gorm.io/gorm/clause"
 )
 
 type Repository struct {
@@ -32,7 +33,7 @@ func (r *Repository) CreateUser(ctx context.Context, user e.User) (e.User, error
 
 func (r *Repository) ReadUser(ctx context.Context, id uint) (e.User, error) {
 	var user e.User
-	err := r.db.First(&user).Where("id = ?", id).Error
+	err := r.db.Where("id = ?", id).First(&user).Error
 	if err != nil {
 		return user, err
 	}
@@ -55,5 +56,11 @@ func (r *Repository) UpdateUser(ctx context.Context, id uint, user e.User) (e.Us
 }
 
 func (r *Repository) DeleteUser(ctx context.Context, id uint) (e.User, error) {
-	return e.User{}, nil
+	var user e.User
+	err := r.db.Clauses(clause.Returning{}).Where("id = ?", id).Delete(&user).Error
+	if err != nil {
+		return user, err
+	}
+
+	return user, nil
 }
