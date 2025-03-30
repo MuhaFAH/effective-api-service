@@ -3,6 +3,8 @@ package server
 import (
 	"context"
 	"errors"
+	"fmt"
+	"github.com/MuhaFAH/effective-api-service/internal/logger"
 	"github.com/MuhaFAH/effective-api-service/internal/service"
 	"github.com/gin-gonic/gin"
 )
@@ -11,15 +13,16 @@ type Server struct {
 	engine  *gin.Engine
 	service *service.Service
 
+	logger  logger.MinimalisticLogger
 	context context.Context
 }
 
-func NewServer(ctx context.Context, srv *service.Service) *Server {
+func NewServer(ctx context.Context, srv *service.Service, lggr logger.MinimalisticLogger) *Server {
 	gin.SetMode(gin.ReleaseMode)
 
 	router := gin.Default()
 
-	return &Server{engine: router, service: srv, context: ctx}
+	return &Server{engine: router, service: srv, logger: lggr, context: ctx}
 }
 
 func (s *Server) InitHandlers() {
@@ -36,7 +39,8 @@ func (s *Server) Run(addr string) error {
 	if s.engine == nil {
 		return errors.New("engine not initialized")
 	}
-
+	fmt.Println(1)
+	s.logger.Debugf("server started work on address: %s", addr)
 	err := s.engine.Run(addr)
 	if err != nil {
 		return err

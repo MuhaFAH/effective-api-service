@@ -4,6 +4,7 @@ import (
 	"context"
 	"github.com/MuhaFAH/effective-api-service/internal/agent"
 	"github.com/MuhaFAH/effective-api-service/internal/config"
+	"github.com/MuhaFAH/effective-api-service/internal/logger"
 	"github.com/MuhaFAH/effective-api-service/internal/service"
 	"github.com/MuhaFAH/effective-api-service/internal/storage/gorm"
 )
@@ -16,7 +17,9 @@ func RunApp(ctx context.Context, cfg config.Config) error {
 	client, repo := agent.NewRestyAgent(), gorm.NewRepository(cfg.PostgresConfig)
 
 	srv := service.NewService(client, repo)
-	server := NewServer(ctx, srv)
+	lggr := logger.NewMinimalLogger(cfg.LogLevel)
+
+	server := NewServer(ctx, srv, lggr)
 
 	server.InitHandlers()
 
