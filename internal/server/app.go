@@ -17,7 +17,7 @@ func RunApp(ctx context.Context, cfg config.Config) error {
 	client, repo := agent.NewRestyAgent(), gorm.NewRepository(cfg.PostgresConfig)
 
 	srv := service.NewService(client, repo)
-	lggr := logger.NewMinimalLogger(cfg.LogLevel)
+	lggr := logger.NewMinimalLogger(cfg.ServiceName, cfg.LogLevel)
 
 	server := NewServer(ctx, srv, lggr)
 

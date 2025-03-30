@@ -5,6 +5,7 @@ import (
 	"github.com/gin-gonic/gin"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 func (s *Server) helloHandler(c *gin.Context) {
@@ -18,13 +19,15 @@ func (s *Server) createUserHandler(c *gin.Context) {
 		return
 	}
 
+	now := time.Now()
+
 	user, err := s.service.CreateUser(s.context, userData)
 	if err != nil {
-		s.logger.Error("can't create user", "error", err.Error())
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return
 	}
-	s.logger.Info("user successful created", "id", user.ID, "name", user.Name)
+
+	s.logger.Debug("user created", "id", user.ID, "duration", time.Since(now))
 	c.JSON(200, gin.H{"user": user})
 }
 
@@ -35,12 +38,15 @@ func (s *Server) getUserHandler(c *gin.Context) {
 		return
 	}
 
+	now := time.Now()
+
 	user, err := s.service.ReadUser(s.context, uint(id))
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return
 	}
 
+	s.logger.Debug("found user data", "id", user.ID, "duration", time.Since(now))
 	c.JSON(200, gin.H{"user": user})
 }
 
@@ -50,12 +56,16 @@ func (s *Server) getUsersHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	now := time.Now()
+
 	users, err := s.service.ReadUsersByFilter(s.context, convertIntoFilter(usersData))
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return
 	}
 
+	s.logger.Debug("found users data", "duration", time.Since(now))
 	c.JSON(200, gin.H{"users": users})
 }
 
@@ -71,12 +81,16 @@ func (s *Server) updateUserHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
+
+	now := time.Now()
+
 	updatedUser, err := s.service.UpdateUser(s.context, uint(id), userData)
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return
 	}
 
+	s.logger.Debug("updated user info", "duration", time.Since(now))
 	c.JSON(200, gin.H{"user": updatedUser})
 }
 
@@ -87,11 +101,14 @@ func (s *Server) deleteUserHandler(c *gin.Context) {
 		return
 	}
 
+	now := time.Now()
+
 	user, err := s.service.DeleteUser(s.context, uint(id))
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return
 	}
 
+	s.logger.Debug("deleted user", "id", id, "duration", time.Since(now))
 	c.JSON(200, gin.H{"user": user})
 }
