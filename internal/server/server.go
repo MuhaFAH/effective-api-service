@@ -24,11 +24,11 @@ func NewServer(ctx context.Context, srv *service.Service) *Server {
 
 func (s *Server) InitHandlers() {
 	s.engine.GET("/", s.helloHandler)
-	s.engine.GET("/users/get/:id", s.getUserHandler)
-	s.engine.GET("/users/delete/:id", s.deleteUserHandler)
+	s.engine.GET("/user/get/:id", s.getUserHandler)
+	s.engine.GET("/user/delete/:id", s.deleteUserHandler)
 
-	s.engine.POST("/users/create", s.createUserHandler)
-	s.engine.POST("/users/update/:id", s.updateUserHandler)
+	s.engine.POST("/user/create", s.createUserHandler)
+	s.engine.PATCH("/user/update/:id", s.updateUserHandler)
 }
 
 func (s *Server) Run(addr string) error {
