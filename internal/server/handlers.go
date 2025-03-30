@@ -55,8 +55,7 @@ func (s *Server) updateUserHandler(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
 		return
 	}
-	userData.ID = uint(id)
-	updatedUser, err := s.service.UpdateUser(s.context, userData)
+	updatedUser, err := s.service.UpdateUser(s.context, uint(id), userData)
 	if err != nil {
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return

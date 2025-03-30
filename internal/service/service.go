@@ -24,17 +24,17 @@ func (s *Service) CreateUser(ctx context.Context, user e.User) (*e.User, error) 
 	if user.Surname == nil || *user.Surname == "" {
 		return nil, errors.New("user surname is required parameter")
 	}
-
-	createdUser, err := s.storage.CreateUser(ctx, user)
-	if err != nil {
-		return nil, err
-	}
-	enrichedUser, err := s.agent.EnrichInformation(ctx, createdUser)
+	enrichedUser, err := s.agent.EnrichInformation(ctx, user)
 	if err != nil {
 		return nil, err
 	}
 
-	return enrichedUser, nil
+	createdUser, err := s.storage.CreateUser(ctx, *enrichedUser)
+	if err != nil {
+		return nil, err
+	}
+
+	return &createdUser, nil
 
 }
 
@@ -47,8 +47,8 @@ func (s *Service) ReadUser(ctx context.Context, id uint) (*e.User, error) {
 	return &user, nil
 }
 
-func (s *Service) UpdateUser(ctx context.Context, user e.User) (*e.User, error) {
-	user, err := s.storage.UpdateUser(ctx, user)
+func (s *Service) UpdateUser(ctx context.Context, id uint, user e.User) (*e.User, error) {
+	user, err := s.storage.UpdateUser(ctx, id, user)
 	if err != nil {
 		return nil, err
 	}

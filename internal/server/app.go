@@ -5,13 +5,13 @@ import (
 	"github.com/MuhaFAH/effective-api-service/internal/agent"
 	"github.com/MuhaFAH/effective-api-service/internal/config"
 	"github.com/MuhaFAH/effective-api-service/internal/service"
-	"github.com/MuhaFAH/effective-api-service/internal/storage/test"
+	"github.com/MuhaFAH/effective-api-service/internal/storage/gorm"
 )
 
 //TODO добавить везде контекст
 
 func RunApp(ctx context.Context, cfg config.Config) error {
-	client, repo := agent.NewRestyAgent(), test.NewRepository()
+	client, repo := agent.NewRestyAgent(), gorm.NewRepository(cfg.PostgresConfig)
 
 	srv := service.NewService(client, repo)
 	server := NewServer(ctx, srv)
