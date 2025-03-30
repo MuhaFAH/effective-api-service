@@ -43,6 +43,22 @@ func (s *Server) getUserHandler(c *gin.Context) {
 	c.JSON(200, gin.H{"user": user})
 }
 
+func (s *Server) getUsersHandler(c *gin.Context) {
+	var usersData UsersRequest
+	if err := c.BindJSON(&usersData); err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
+
+	users, err := s.service.ReadUsersByFilter(s.context, convertIntoFilter(usersData))
+	if err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(200, gin.H{"user": users})
+}
+
 func (s *Server) updateUserHandler(c *gin.Context) {
 	id, err := strconv.Atoi(c.Param("id"))
 	if err != nil {

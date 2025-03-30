@@ -4,6 +4,7 @@ import (
 	"context"
 	"errors"
 	"github.com/MuhaFAH/effective-api-service/internal/agent"
+	"github.com/MuhaFAH/effective-api-service/internal/storage"
 	e "github.com/MuhaFAH/effective-api-service/internal/storage/entities"
 	"github.com/MuhaFAH/effective-api-service/internal/storage/repository"
 )
@@ -45,6 +46,15 @@ func (s *Service) ReadUser(ctx context.Context, id uint) (*e.User, error) {
 	}
 
 	return &user, nil
+}
+
+func (s *Service) ReadUsersByFilter(ctx context.Context, filter storage.Filter) ([]e.User, error) {
+	users, err := s.storage.ReadUsersByFilter(ctx, filter)
+	if err != nil {
+		return nil, err
+	}
+
+	return users, nil
 }
 
 func (s *Service) UpdateUser(ctx context.Context, id uint, user e.User) (*e.User, error) {

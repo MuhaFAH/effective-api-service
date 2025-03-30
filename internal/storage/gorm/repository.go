@@ -2,6 +2,7 @@ package gorm
 
 import (
 	"context"
+	"github.com/MuhaFAH/effective-api-service/internal/storage"
 	e "github.com/MuhaFAH/effective-api-service/internal/storage/entities"
 	"gorm.io/gorm"
 	"gorm.io/gorm/clause"
@@ -37,6 +38,12 @@ func (r *Repository) ReadUser(ctx context.Context, id uint) (e.User, error) {
 	}
 
 	return user, nil
+}
+
+func (r *Repository) ReadUsersByFilter(ctx context.Context, filter storage.Filter) ([]e.User, error) {
+	//TODO сделать логику выборки с фильтром для репозитория горма
+
+	return []e.User{}, nil
 }
 
 func (r *Repository) UpdateUser(ctx context.Context, id uint, user e.User) (e.User, error) {
