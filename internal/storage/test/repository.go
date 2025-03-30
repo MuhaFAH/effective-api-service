@@ -52,9 +52,19 @@ func (r *Repository) ReadUser(ctx context.Context, id uint) (e.User, error) {
 }
 
 func (r *Repository) ReadUsersByFilter(ctx context.Context, filter storage.Filter) ([]e.User, error) {
-	//TODO сделать логику выборки с фильтром для тестового репозитория
+	now := time.Now()
 
-	return []e.User{}, nil
+	name, surname, patronymic, age, nat, gender := "Alice", "Ivanova", "Ivanovna", 18, "UA", "female"
+	user1 := e.User{
+		ID: 1, CreatedAt: now, UpdatedAt: now,
+		Name: &name, Surname: &surname, Patronymic: &patronymic, Age: &age, Gender: &gender, Nationality: &nat}
+
+	name, surname, patronymic, age, nat, gender = "Artem", "Petrov", "Petrovich", 35, "RU", "male"
+	user2 := e.User{
+		ID: 2, CreatedAt: now, UpdatedAt: now,
+		Name: &name, Surname: &surname, Patronymic: &patronymic, Age: &age, Gender: &gender, Nationality: &nat}
+
+	return []e.User{user1, user2}, nil
 }
 
 func (r *Repository) UpdateUser(ctx context.Context, id uint, user e.User) (e.User, error) {
