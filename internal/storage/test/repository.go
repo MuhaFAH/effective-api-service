@@ -52,8 +52,6 @@ func (r *Repository) ReadUser(ctx context.Context, id uint) (e.User, error) {
 
 func (r *Repository) UpdateUser(ctx context.Context, user e.User) (e.User, error) {
 	now := time.Now()
-
-	user.ID = generateID()
 	user.UpdatedAt = now
 
 	return user, nil

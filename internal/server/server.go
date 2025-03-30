@@ -25,6 +25,7 @@ func NewServer(ctx context.Context, srv *service.Service) *Server {
 func (s *Server) InitHandlers() {
 	s.engine.GET("/", s.helloHandler)
 	s.engine.POST("/users/create", s.createUserHandler)
+	//s.engine.GET("/users/get/:id", s.getUserHandler)
 }
 
 func (s *Server) Run(addr string) error {

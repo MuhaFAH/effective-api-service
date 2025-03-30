@@ -38,4 +38,29 @@ func (s *Service) CreateUser(ctx context.Context, user e.User) (*e.User, error) 
 
 }
 
-//TODO создать методы для сервиса
+func (s *Service) ReadUser(ctx context.Context, id uint) (*e.User, error) {
+	user, err := s.storage.ReadUser(ctx, id)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+func (s *Service) UpdateUser(ctx context.Context, user e.User) (*e.User, error) {
+	user, err := s.storage.UpdateUser(ctx, user)
+	if err != nil {
+		return nil, err
+	}
+
+	return &user, nil
+}
+
+func (s *Service) DeleteUser(ctx context.Context, id uint) error {
+	err := s.storage.DeleteUser(ctx, id)
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

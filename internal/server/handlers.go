@@ -27,4 +27,16 @@ func (s *Server) createUserHandler(c *gin.Context) {
 	c.JSON(200, gin.H{"user": user})
 }
 
-//TODO доделать остальные хендлеры (ручки)
+//func (s *Server) getUserHandler(c *gin.Context) {
+//	id, err := strconv.Atoi(c.Param("id"))
+//	if err != nil {
+//		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+//		return
+//	}
+//}
+
+//TODO хендлер обновления пользователя
+
+//TODO хендлер удаления пользователя
+
+//TODO хендлер получения пользователя
