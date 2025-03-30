@@ -13,7 +13,7 @@ type PostgresConfig struct {
 	User     string `yaml:"postgres_user" env:"POSTGRES_USER" env-default:"postgres"`
 	Password string `yaml:"postgres_password" env:"POSTGRES_PASSWORD" env-default:"2006"`
 	Database string `yaml:"postgres_database" env:"POSTGRES_DATABASE" env-default:"effective-api-data"`
-	Port     string `yaml:"postgres_port" env:"POSTGRES_PORT" env-default:"5432"`
+	Port     string `yaml:"postgres_port" env:"POSTGRES_PORT" env-default:"5433"`
 	SSLMode  string `yaml:"postgres_sslmode" env:"POSTGRES_SSLMODE" env-default:"disable"`
 	Timezone string `yaml:"postgres_timezone" env:"POSTGRES_TIMEZONE" env-default:"Europe/Moscow"`
 }

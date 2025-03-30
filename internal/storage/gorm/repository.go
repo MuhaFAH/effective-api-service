@@ -20,8 +20,6 @@ func NewRepository(config PostgresConfig) *Repository {
 	return &Repository{db: db}
 }
 
-//TODO реализация методов репозитория горм
-
 func (r *Repository) CreateUser(ctx context.Context, user e.User) (e.User, error) {
 	err := r.db.Create(&user).Error
 	if err != nil {
@@ -42,7 +40,7 @@ func (r *Repository) ReadUser(ctx context.Context, id uint) (e.User, error) {
 }
 
 func (r *Repository) UpdateUser(ctx context.Context, id uint, user e.User) (e.User, error) {
-	r.db.Model(&user).Where("id = ?", id).
+	r.db.Model(&user).Clauses(clause.Returning{}).Where("id = ?", id).
 		Updates(map[string]interface{}{
 			"name":        gorm.Expr("COALESCE(?, users.name)", user.Name),
 			"surname":     gorm.Expr("COALESCE(?, users.surname)", user.Surname),
