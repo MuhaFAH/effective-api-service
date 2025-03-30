@@ -7,6 +7,13 @@ import (
 	"github.com/ilyakaznacheev/cleanenv"
 )
 
+// @title Effective Mobile API
+// @version 1.0
+// @description Effective Mobile Task for junior position
+
+// @host localhost:8080
+// @BasePath /
+
 func main() {
 	var cfg config.Config
 	if err := cleanenv.ReadConfig("configs/local.env", &cfg); err != nil {

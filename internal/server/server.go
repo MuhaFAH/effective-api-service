@@ -3,9 +3,12 @@ package server
 import (
 	"context"
 	"errors"
+	_ "github.com/MuhaFAH/effective-api-service/docs"
 	"github.com/MuhaFAH/effective-api-service/internal/logger"
 	"github.com/MuhaFAH/effective-api-service/internal/service"
 	"github.com/gin-gonic/gin"
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 )
 
 type Server struct {
@@ -15,9 +18,6 @@ type Server struct {
 	logger  logger.MinimalisticLogger
 	context context.Context
 }
-
-// @contact.name   Effective Mobile Task
-// @contact.email  muhabusiness@ya.ru
 
 func NewServer(ctx context.Context, srv *service.Service, lggr logger.MinimalisticLogger) *Server {
 	gin.SetMode(gin.ReleaseMode)
@@ -32,11 +32,13 @@ func (s *Server) InitHandlers() {
 
 	s.engine.GET("/", s.helloHandler)
 	s.engine.GET("/user/get/:id", s.getUserHandler)
-	s.engine.GET("/user/delete/:id", s.deleteUserHandler)
+	s.engine.DELETE("/user/delete/:id", s.deleteUserHandler)
 
 	s.engine.POST("/users/get", s.getUsersHandler)
 	s.engine.POST("/user/create", s.createUserHandler)
 	s.engine.PATCH("/user/update/:id", s.updateUserHandler)
+
+	s.engine.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler))
 }
 
 func (s *Server) Run(addr string) error {

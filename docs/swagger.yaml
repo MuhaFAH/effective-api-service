@@ -1,0 +1,234 @@
+basePath: /
+definitions:
+  entities.User:
+    properties:
+      age:
+        example: 18
+        type: integer
+      createdAt:
+        type: string
+      gender:
+        example: male
+        type: string
+      id:
+        type: integer
+      name:
+        example: Ivan
+        type: string
+      nationality:
+        example: RU
+        type: string
+      patronymic:
+        example: Yovanovitch
+        type: string
+      surname:
+        example: Ivanov
+        type: string
+      updatedAt:
+        type: string
+    type: object
+  server.ErrorResponseExample:
+    properties:
+      error:
+        example: Bad Request
+        type: string
+      status:
+        example: 400
+        type: integer
+    type: object
+  server.GetUserExample:
+    properties:
+      name:
+        example: Ivan
+        type: string
+      surname:
+        example: Ivanov
+        type: string
+    type: object
+  server.GetUsersExample:
+    properties:
+      count_in_page:
+        example: 3
+        type: integer
+      gender:
+        example: male
+        type: string
+      page:
+        example: 1
+        type: integer
+    type: object
+  server.OkResponseExample:
+    properties:
+      status:
+        example: 200
+        type: integer
+    type: object
+  server.UpdateUserExample:
+    properties:
+      age:
+        example: 33
+        type: integer
+      name:
+        example: Alice
+        type: string
+    type: object
+host: localhost:8080
+info:
+  contact: {}
+  description: Effective Mobile Task for junior position
+  title: Effective Mobile API
+  version: "1.0"
+paths:
+  /:
+    get:
+      description: Базовая и удобная проверка работоспособности ответа от сервера.
+      operationId: hello-handler
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: OK
+          schema:
+            additionalProperties:
+              type: string
+            type: object
+      summary: Базовое приветствие
+      tags:
+      - main
+  /user/create:
+    post:
+      consumes:
+      - application/json
+      description: Позволяет создать нового пользователя
+      operationId: create-user
+      parameters:
+      - description: Информация о пользователе (обязательны только имя и фамилия)
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/server.GetUserExample'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Успешная обработка данных
+          schema:
+            $ref: '#/definitions/server.OkResponseExample'
+        "400":
+          description: Ошибка в процессе выполнения
+          schema:
+            $ref: '#/definitions/server.ErrorResponseExample'
+      summary: Создание пользователя
+      tags:
+      - users
+  /user/delete/{id}:
+    delete:
+      description: Позволяет удалить пользователя по его ID
+      operationId: delete-user
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Пользователь успешно удалён
+          schema:
+            $ref: '#/definitions/entities.User'
+        "400":
+          description: Ошибка в процессе выполнения
+          schema:
+            $ref: '#/definitions/server.ErrorResponseExample'
+      summary: Удаление пользователя
+      tags:
+      - users
+  /user/get/{id}:
+    get:
+      description: Позволяет получить информацию о пользователе по его ID
+      operationId: get-user
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Данные пользователя
+          schema:
+            $ref: '#/definitions/entities.User'
+        "400":
+          description: Ошибка в процессе выполнения
+          schema:
+            $ref: '#/definitions/server.ErrorResponseExample'
+      summary: Получение пользователя
+      tags:
+      - users
+  /user/update/{id}:
+    patch:
+      consumes:
+      - application/json
+      description: Позволяет обновить данные пользователя по ID
+      operationId: update-user
+      parameters:
+      - description: ID пользователя
+        in: path
+        name: id
+        required: true
+        type: integer
+      - description: Обновленные данные пользователя
+        in: body
+        name: input
+        required: true
+        schema:
+          $ref: '#/definitions/server.UpdateUserExample'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Обновленные данные пользователя
+          schema:
+            $ref: '#/definitions/entities.User'
+        "400":
+          description: Ошибка в процессе выполнения
+          schema:
+            $ref: '#/definitions/server.ErrorResponseExample'
+      summary: Обновление пользователя
+      tags:
+      - users
+  /users/get:
+    post:
+      consumes:
+      - application/json
+      description: Позволяет получить список пользователей по заданным критериям фильтрации
+      operationId: get-users
+      parameters:
+      - description: Фильтры для поиска пользователей
+        in: body
+        name: filter
+        required: true
+        schema:
+          $ref: '#/definitions/server.GetUsersExample'
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: Список пользователей
+          schema:
+            items:
+              $ref: '#/definitions/entities.User'
+            type: array
+        "400":
+          description: Ошибка в процессе выполнения
+          schema:
+            $ref: '#/definitions/server.ErrorResponseExample'
+      summary: Получение списка пользователей по фильтру
+      tags:
+      - users
+swagger: "2.0"
