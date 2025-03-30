@@ -57,6 +57,14 @@ func (r *Repository) UpdateUser(ctx context.Context, user e.User) (e.User, error
 	return user, nil
 }
 
-func (r *Repository) DeleteUser(ctx context.Context, id uint) error {
-	return nil
+func (r *Repository) DeleteUser(ctx context.Context, id uint) (e.User, error) {
+	now := time.Now()
+	name, surname, patronymic, age, gender, national := "Alice", "Vasil", "Ivanovich", 18, "Female", "ua"
+
+	user := e.User{
+		ID: id, CreatedAt: now, UpdatedAt: now,
+		Name: &name, Surname: &surname, Patronymic: &patronymic, Age: &age, Gender: &gender, Nationality: &national,
+	}
+
+	return user, nil
 }

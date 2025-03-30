@@ -37,6 +37,6 @@ func (r *Repository) UpdateUser(ctx context.Context, user e.User) (e.User, error
 	return e.User{}, nil
 }
 
-func (r *Repository) DeleteUser(ctx context.Context, id uint) error {
-	return nil
+func (r *Repository) DeleteUser(ctx context.Context, id uint) (e.User, error) {
+	return e.User{}, nil
 }

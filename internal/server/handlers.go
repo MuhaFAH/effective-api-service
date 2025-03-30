@@ -8,7 +8,6 @@ import (
 )
 
 func (s *Server) helloHandler(c *gin.Context) {
-
 	c.JSON(200, gin.H{"message": "Hello!"})
 }
 
@@ -66,6 +65,18 @@ func (s *Server) updateUserHandler(c *gin.Context) {
 	c.JSON(200, gin.H{"user": updatedUser})
 }
 
-//TODO хендлер обновления пользователя
+func (s *Server) deleteUserHandler(c *gin.Context) {
+	id, err := strconv.Atoi(c.Param("id"))
+	if err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
+		return
+	}
 
-//TODO хендлер удаления пользователя
+	user, err := s.service.DeleteUser(s.context, uint(id))
+	if err != nil {
+		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
+		return
+	}
+
+	c.JSON(200, gin.H{"user": user})
+}

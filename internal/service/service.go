@@ -56,11 +56,11 @@ func (s *Service) UpdateUser(ctx context.Context, user e.User) (*e.User, error) 
 	return &user, nil
 }
 
-func (s *Service) DeleteUser(ctx context.Context, id uint) error {
-	err := s.storage.DeleteUser(ctx, id)
+func (s *Service) DeleteUser(ctx context.Context, id uint) (*e.User, error) {
+	deletedUser, err := s.storage.DeleteUser(ctx, id)
 	if err != nil {
-		return err
+		return nil, err
 	}
 
-	return nil
+	return &deletedUser, nil
 }
