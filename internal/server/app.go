@@ -9,6 +9,8 @@ import (
 )
 
 //TODO добавить везде контекст
+//TODO сгенерировать Swagger
+//TODO покрыть код логами
 
 func RunApp(ctx context.Context, cfg config.Config) error {
 	client, repo := agent.NewRestyAgent(), gorm.NewRepository(cfg.PostgresConfig)
