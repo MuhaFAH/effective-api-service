@@ -20,10 +20,11 @@ func (s *Server) createUserHandler(c *gin.Context) {
 
 	user, err := s.service.CreateUser(s.context, userData)
 	if err != nil {
+		s.logger.Error("can't create user", "error", err.Error())
 		c.JSON(http.StatusUnprocessableEntity, gin.H{"error": err.Error()})
 		return
 	}
-
+	s.logger.Info("user successful created", "id", user.ID, "name", user.Name)
 	c.JSON(200, gin.H{"user": user})
 }
 

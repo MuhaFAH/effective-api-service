@@ -11,7 +11,12 @@ type MinimalisticLogger struct {
 }
 
 func NewMinimalLogger(level string) MinimalisticLogger {
-	logger := log.New(os.Stdout)
+	logger := log.NewWithOptions(os.Stdout, log.Options{
+		ReportCaller:    true,
+		ReportTimestamp: true,
+		TimeFormat:      "2006-01-02 15:04:05",
+		Prefix:          "❤️ EffectiveMobile",
+	})
 
 	logger.SetLevel(getLevel(strings.ToLower(level)))
 
