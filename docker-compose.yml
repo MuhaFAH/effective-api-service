@@ -1,0 +1,35 @@
+services:
+  pulsar:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: eMobile
+    env_file:
+      - configs/local.env
+    ports:
+      - "8088:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: always
+
+  postgres:
+    image: postgres:17
+    container_name: mobile-postgres
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 2006
+      POSTGRES_DB: effective-api-data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "5436:5432"
+    restart: always
+
+volumes:
+  postgres_data:

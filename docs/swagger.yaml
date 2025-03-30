@@ -57,6 +57,12 @@ definitions:
         example: 1
         type: integer
     type: object
+  server.HelloResponseExample:
+    properties:
+      message:
+        example: Hello!
+        type: string
+    type: object
   server.OkResponseExample:
     properties:
       status:
@@ -72,7 +78,7 @@ definitions:
         example: Alice
         type: string
     type: object
-host: localhost:8080
+host: localhost:8088
 info:
   contact: {}
   description: Effective Mobile Task for junior position
@@ -87,11 +93,9 @@ paths:
       - application/json
       responses:
         "200":
-          description: OK
+          description: В случае успешного ответа будет возвращен ответ Hello!
           schema:
-            additionalProperties:
-              type: string
-            type: object
+            $ref: '#/definitions/server.HelloResponseExample'
       summary: Базовое приветствие
       tags:
       - main
@@ -209,7 +213,8 @@ paths:
       description: Позволяет получить список пользователей по заданным критериям фильтрации
       operationId: get-users
       parameters:
-      - description: Фильтры для поиска пользователей
+      - description: Фильтры для поиска пользователей (можно указывать любую комбинацию
+          полей)
         in: body
         name: filter
         required: true

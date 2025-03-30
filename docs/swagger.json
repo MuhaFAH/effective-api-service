@@ -6,7 +6,7 @@
         "contact": {},
         "version": "1.0"
     },
-    "host": "localhost:8080",
+    "host": "localhost:8088",
     "basePath": "/",
     "paths": {
         "/": {
@@ -22,12 +22,9 @@
                 "operationId": "hello-handler",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "В случае успешного ответа будет возвращен ответ Hello!",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/server.HelloResponseExample"
                         }
                     }
                 }
@@ -210,7 +207,7 @@
                 "operationId": "get-users",
                 "parameters": [
                     {
-                        "description": "Фильтры для поиска пользователей",
+                        "description": "Фильтры для поиска пользователей (можно указывать любую комбинацию полей)",
                         "name": "filter",
                         "in": "body",
                         "required": true,
@@ -318,6 +315,15 @@
                 "page": {
                     "type": "integer",
                     "example": 1
+                }
+            }
+        },
+        "server.HelloResponseExample": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Hello!"
                 }
             }
         },

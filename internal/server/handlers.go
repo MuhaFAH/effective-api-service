@@ -14,7 +14,7 @@ import (
 // @Tags main
 // @ID hello-handler
 // @Produce json
-// @Success 200 {object} map[string]string
+// @Success 200 {object} HelloResponseExample "В случае успешного ответа будет возвращен ответ Hello!"
 func (s *Server) helloHandler(c *gin.Context) {
 	c.JSON(200, gin.H{"message": "Hello!"})
 }
@@ -83,7 +83,7 @@ func (s *Server) getUserHandler(c *gin.Context) {
 // @ID get-users
 // @Accept json
 // @Produce json
-// @Param filter body GetUsersExample true "Фильтры для поиска пользователей"
+// @Param filter body GetUsersExample true "Фильтры для поиска пользователей (можно указывать любую комбинацию полей)"
 // @Success 200 {array} entities.User "Список пользователей"
 // @Failure 400 {object} ErrorResponseExample "Ошибка в процессе выполнения"
 func (s *Server) getUsersHandler(c *gin.Context) {

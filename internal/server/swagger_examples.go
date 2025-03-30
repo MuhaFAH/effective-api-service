@@ -1,5 +1,9 @@
 package server
 
+type HelloResponseExample struct {
+	Message *string `json:"message" example:"Hello!"`
+}
+
 type GetUserExample struct {
 	Name    *string `json:"name" example:"Ivan"`
 	Surname *string `json:"surname" example:"Ivanov"`

@@ -28,12 +28,9 @@ const docTemplate = `{
                 "operationId": "hello-handler",
                 "responses": {
                     "200": {
-                        "description": "OK",
+                        "description": "В случае успешного ответа будет возвращен ответ Hello!",
                         "schema": {
-                            "type": "object",
-                            "additionalProperties": {
-                                "type": "string"
-                            }
+                            "$ref": "#/definitions/server.HelloResponseExample"
                         }
                     }
                 }
@@ -216,7 +213,7 @@ const docTemplate = `{
                 "operationId": "get-users",
                 "parameters": [
                     {
-                        "description": "Фильтры для поиска пользователей",
+                        "description": "Фильтры для поиска пользователей (можно указывать любую комбинацию полей)",
                         "name": "filter",
                         "in": "body",
                         "required": true,
@@ -327,6 +324,15 @@ const docTemplate = `{
                 }
             }
         },
+        "server.HelloResponseExample": {
+            "type": "object",
+            "properties": {
+                "message": {
+                    "type": "string",
+                    "example": "Hello!"
+                }
+            }
+        },
         "server.OkResponseExample": {
             "type": "object",
             "properties": {
@@ -355,7 +361,7 @@ const docTemplate = `{
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
-	Host:             "localhost:8080",
+	Host:             "localhost:8088",
 	BasePath:         "/",
 	Schemes:          []string{},
 	Title:            "Effective Mobile API",
