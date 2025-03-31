@@ -135,7 +135,7 @@ cp env.template local.env
 <br>Доступна <b>пагинация</b>:
 номер страницы (page) и количество на странице (count_in_page).
 ```
-[GET] /users/get
+[POST] /users/get
 
 {
 // Пагинация
