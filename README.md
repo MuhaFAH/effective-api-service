@@ -1,4 +1,4 @@
-# effective-mobile-task
+# effective-api-service
 
 Проект, созданный для тестового задания на позицию Junior Golang Developer.
 
