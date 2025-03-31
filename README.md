@@ -41,6 +41,8 @@ Swagger будет доступен по пути: <b>localhost:8088/swagger/ind
 | `POSTGRES_PORT`                 | `5435`                | порт базы данных  (вне сети докера)                             |
 | `POSTGRES_SSLMODE`                 | `disable`             | SSLMode базы данных                            |
 | `POSTGRES_TIMEZONE`                 | `Europe/Moscow`       | часовой пояс базы данных                       |
+<br>
+
 Чтобы задать свои значения, необходимо перейти из корневой папки приложения в папку <b>configs</b>:
 ```bash
 cd configs
